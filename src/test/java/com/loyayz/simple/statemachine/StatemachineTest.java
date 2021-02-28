@@ -36,14 +36,14 @@ public class StatemachineTest {
                         .to(States.STATE2)
                         .on(Events.EVENT1)
                         .when(condition())
-                        .then(action())
+                        .perform(action())
                         // two
                         .newTransition()
                         .from(States.STATE1)
                         .to(States.STATE2)
                         .on(Events.EVENT1)
                         .when(condition())
-                        .then(action())
+                        .perform(action())
                         .build()
         );
     }
@@ -59,7 +59,7 @@ public class StatemachineTest {
                 .to(States.STATE2)
                 .on(Events.EVENT1)
                 .when(condition())
-                .then(action())
+                .perform(action())
 
                 // STATE2 -> STATE3 on EVENT2
                 .newTransition()
@@ -67,22 +67,22 @@ public class StatemachineTest {
                 .to(States.STATE3)
                 .on(Events.EVENT2)
                 .when(condition())
-                .then(action())
+                .perform(action())
 
                 // STATE3 -> STATE3 on EVENT2
                 .newTransition()
                 .at(States.STATE3)
                 .on(Events.EVENT2)
                 .when(condition())
-                .then(action())
+                .perform(action())
 
                 // STATE1,STATE2,STATE3 -> STATE4 on EVENT3
                 .newTransition()
                 .from(States.STATE1,States.STATE2,States.STATE3)
                 .to(States.STATE4)
                 .on(Events.EVENT3)
-                .when(condition())
-                .then(action())
+                .always()
+                .perform(action())
 
                 .build()
                 .register(machineId);

@@ -33,6 +33,10 @@ public class Transition<S, EVT, CTX> {
      */
     private Predicate<CTX> condition;
     /**
+     * 执行条件不通过时是否抛异常
+     */
+    private boolean conditionException;
+    /**
      * 执行方法
      */
     private Action<S, EVT, CTX> action;
@@ -51,7 +55,10 @@ public class Transition<S, EVT, CTX> {
             }
             return target;
         }
-        throw new StatemachineException("Transition condition is not satisfied.");
+        if (conditionException) {
+            throw new StatemachineException("Transition condition is not satisfied.");
+        }
+        return source;
     }
 
     public Transition(Transition<S, EVT, CTX> other) {
@@ -59,6 +66,7 @@ public class Transition<S, EVT, CTX> {
         this.target = other.target();
         this.event = other.event();
         this.condition = other.condition();
+        this.conditionException = other.conditionException();
         this.action = other.action();
     }
 

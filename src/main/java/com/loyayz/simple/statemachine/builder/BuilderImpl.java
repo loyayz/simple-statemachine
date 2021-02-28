@@ -34,8 +34,8 @@ class BuilderImpl<S, EVT, CTX> implements StatemachineBuilder<S, EVT, CTX>,
 
     @Override
     public TransitionAt<S, EVT, CTX> at(S state) {
-        currentSourceStates.add(state);
         currentTransition.target(state);
+        currentSourceStates.add(state);
         return this;
     }
 
@@ -61,13 +61,14 @@ class BuilderImpl<S, EVT, CTX> implements StatemachineBuilder<S, EVT, CTX>,
     }
 
     @Override
-    public TransitionWhen<S, EVT, CTX> when(Predicate<CTX> condition) {
+    public TransitionWhen<S, EVT, CTX> when(Predicate<CTX> condition, boolean throwException) {
         currentTransition.condition(condition);
+        currentTransition.conditionException(throwException);
         return this;
     }
 
     @Override
-    public StatemachineBuilder<S, EVT, CTX> then(Action<S, EVT, CTX> action) {
+    public StatemachineBuilder<S, EVT, CTX> perform(Action<S, EVT, CTX> action) {
         currentTransition.action(action);
         return this;
     }
@@ -82,7 +83,7 @@ class BuilderImpl<S, EVT, CTX> implements StatemachineBuilder<S, EVT, CTX>,
         transitions.stream()
                 .collect(Collectors.groupingBy(Transition::source))
                 .forEach((source, eventTransitions) -> {
-                    Map<EVT, Transition<S, EVT, CTX>> eventTransitionMap = new HashMap<>();
+                    Map<EVT, Transition<S, EVT, CTX>> eventTransitionMap = new HashMap<>(8);
                     eventTransitions.forEach(transition -> {
                         EVT event = transition.event();
                         if (eventTransitionMap.containsKey(event)) {

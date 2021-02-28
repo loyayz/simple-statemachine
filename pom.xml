@@ -6,7 +6,7 @@
 
     <groupId>com.loyayz</groupId>
     <artifactId>simple-statemachine</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <name>simple state machine</name>
     <description>simple state machine</description>

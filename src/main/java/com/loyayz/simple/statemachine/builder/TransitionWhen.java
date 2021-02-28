@@ -13,6 +13,6 @@ public interface TransitionWhen<S, EVT, CTX> {
      * @param action 执行方法
      * @return builder
      */
-    StatemachineBuilder<S, EVT, CTX> then(Action<S, EVT, CTX> action);
+    StatemachineBuilder<S, EVT, CTX> perform(Action<S, EVT, CTX> action);
 
 }
